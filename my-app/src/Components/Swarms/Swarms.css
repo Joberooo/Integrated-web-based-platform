@@ -4,3 +4,22 @@
   grid-row-start: 1;
   grid-row-end: 2;
 }
+
+button{
+  font-size: 0.75em;
+  width: 200px;
+  height: 50px;
+  display: block;
+  color: #ffffff;
+  background: #2B2D2F;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: none;
+}
+
+button:hover{
+  background: #3e4042;
+  transition: background 0.3s;
+}

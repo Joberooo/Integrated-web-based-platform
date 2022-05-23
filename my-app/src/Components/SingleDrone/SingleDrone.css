@@ -1,0 +1,22 @@
+.SingleDrone{
+    width: calc(25% - 10px);
+    box-sizing: border-box;
+    padding: 0;
+    margin: 5px;
+    display: block;
+    float: left;
+    background: #f0f5da;
+    font-size: 0.7em;
+    border: 1px solid #000;
+    border-radius: 25px;
+}
+
+.SingleDrone p{
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.SingleDrone button{
+    font-size: 1em;
+}

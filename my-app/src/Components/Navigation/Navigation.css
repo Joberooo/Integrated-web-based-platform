@@ -1,0 +1,35 @@
+.Home {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  grid-template-rows: 50px calc(100vh - 50px);
+  font-size: 24px;
+}
+
+.nav-menu{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  grid-column-start: 2;
+}
+
+.nav-menu .nav-option{
+  width: 50%;
+  height: 100%;
+  display: block;
+  float: left;
+  color: #ffffff;
+  background: #2B2D2F;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.nav-menu .nav-option:first-child{
+  border-right: 1px solid #ffffff;
+}
+
+.nav-menu .nav-option:hover{
+  background: #3e4042;
+  transition: background 0.3s;
+}

@@ -33,7 +33,7 @@ const SingleSwarm: FC<Swarm> = ({id, drones, deleteSwarmFunction, addDroneFuncti
        <h4>Swarm #{id}</h4>
        <button onClick={addDrone}>&#43;</button>
        <button onClick={deleteSwarm} className={"redButton" + (!displayDeleteButton ? " darkButton" : "")} disabled={!displayDeleteButton}>&#128465;</button>
-       {drones.map((drone) => {return(<SingleDrone key={drone.id} id={drone.id} latitude={drone.latitude} longitude={drone.longitude} deleteFunction={deleteDrone} />)})}
+       {drones.sort( (a, b) => a.id > b.id ? 1 : -1).map((drone) => {return(<SingleDrone key={drone.id} id={drone.id} latitude={drone.latitude} longitude={drone.longitude} deleteFunction={deleteDrone} />)})}
     </div>
   );
 }

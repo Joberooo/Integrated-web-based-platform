@@ -24,7 +24,7 @@ const SingleSwarm: FC<Swarm> = ({id, drones, deleteFunction}) => {
   }, [thisDrones]);
 
   const addDrone = () => {
-    var newId = 1;
+    var newId = 1 + id * 100;
     if(thisDrones.length > 0) newId = thisDrones[thisDrones.length - 1].id + 1;
     let newDrone: Drone = {id: newId, latitude: 52.237049 + newId, longitude: 21.017532 + newId}
     setThisDrones([...thisDrones, newDrone]);

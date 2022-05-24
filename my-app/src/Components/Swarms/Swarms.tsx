@@ -15,7 +15,6 @@ interface Swarm {
 
 function Swarms() {
   const [swarms, setSwarms] = useState<Swarm[]>([]);
-  const [newSwarms, setNewSwarms] = useState<Swarm[]>([]);
 
   const addSwarm = () => {
     var newId = 1;

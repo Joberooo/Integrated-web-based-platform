@@ -20,6 +20,7 @@ const Navigation = () => {
   const [displayNumber, setDisplayNumber] = useState<number>(1);
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [swarms, setSwarms] = useState<Swarm[]>([]);
+  const [drones, setDrones] = useState<Drone[]>([]);
 
   const [swarmsId, setSwarmsId] = useState<number>(1);
   const [dronesId, setDronesId] = useState<number>(101);
@@ -57,7 +58,6 @@ const Navigation = () => {
   }
 
   const dragAndDropDrone = (dropToSwarmId: number, dropFromSwarmId: number, dropDroneId: number) => {
-    console.log(dropToSwarmId, dropFromSwarmId, dropDroneId);
     var timeSwarms = swarms.filter( item => item.id !== dropToSwarmId && item.id !== dropFromSwarmId);
     var swarmToDeleteDrone = swarms.find( item => item.id === dropFromSwarmId);
     var swarmToAddDrone = swarms.find( item => item.id === dropToSwarmId);
@@ -80,17 +80,27 @@ const Navigation = () => {
     })
   }, [])
 
+  useEffect( () => {
+    var timeDrones: Drone[] = [];
+    swarms.forEach(swarm => {
+      swarm.drones.forEach(drone => {
+        timeDrones = [...timeDrones, drone];
+      })
+    });
+    setDrones(timeDrones);
+  }, [swarms]);
+
   const goToMap = () => setDisplayNumber(1);
   const goToSwarms = () => setDisplayNumber(2);
 
   return (
     <div className="Home">
-      {displayNumber === 1 && scriptLoaded && (<Map mapType={google.maps.MapTypeId.TERRAIN} mapTypeControl={true} swarmsArray={swarms}/>)}
+      {displayNumber === 1 && scriptLoaded && (<Map mapType={google.maps.MapTypeId.TERRAIN} mapTypeControl={true} dronesArray={drones}/>)}
       {displayNumber === 2 && (<Swarms swarms={swarms} addSwarmFunction={addSwarm} deleteSwarmFunction={deleteSwarm} addDrone={addDroneToSwarm} deleteDrone={deleteDroneFromSwarm} dragAndDrop={dragAndDropDrone} />)}
 
       <ul className='nav-menu'>
-        <li className='nav-option' onClick={goToMap}>Mapa</li>
-        <li className='nav-option' onClick={goToSwarms}>Roje</li>
+        <li className='nav-option' onClick={goToMap}>Map</li>
+        <li className='nav-option' onClick={goToSwarms}>Swarms</li>
       </ul>
 
       {displayNumber === 1 && (<Orders />)}

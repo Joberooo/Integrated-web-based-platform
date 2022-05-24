@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import './SingleDrone.css';
 
 interface Drone {
@@ -10,9 +10,7 @@ interface Drone {
 
 const SingleDrone: FC<Drone> = ({id, latitude, longitude, deleteFunction}) => {
 
-  const deleteDrone = () => {
-    deleteFunction(id);
-  }
+  const deleteDrone = () => deleteFunction(id);
 
   const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('text', event.currentTarget.id);

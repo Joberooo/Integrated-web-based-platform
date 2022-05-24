@@ -1,16 +1,28 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './Map.css';
 
+interface Drone {
+  id: number;
+  latitude: number;
+  longitude: number;
+}
+
+interface Swarm {
+  id: number;
+  drones: Drone[];
+}
+
 interface IMap{
   mapType: google.maps.MapTypeId,
   mapTypeControl?: boolean;
+  swarmsArray: Swarm[]
 }
 
 type GoogleLatLng = google.maps.LatLng;
 type GoogleMap = google.maps.Map;
 
-const Map: React.FC<IMap> = ({mapType, mapTypeControl = false}) => {
-
+const Map: React.FC<IMap> = ({mapType, mapTypeControl = false, swarmsArray}) => {
+  const [swarms, setSwarms] = useState<Swarm[]>(swarmsArray);
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<GoogleMap>();
 

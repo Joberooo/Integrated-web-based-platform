@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import './Swarms.css';
 import SingleSwarm from '../SingleSwarm/SingleSwarm';
 
@@ -13,25 +13,26 @@ interface Swarm {
   drones: Drone[];
 }
 
-function Swarms() {
-  const [swarms, setSwarms] = useState<Swarm[]>([]);
+interface ISwarms {
+  swarms: Swarm[];
+  addSwarmFunction: any;
+  deleteSwarmFunction: any;
+  addDrone: any;
+  deleteDrone: any;
+}
 
-  const addSwarm = () => {
-    var newId = 1;
-    if(swarms.length > 0) newId = swarms[swarms.length - 1].id + 1;
-    let newSwarm: Swarm = {id: newId, drones: []};
-    setSwarms([...swarms, newSwarm]);
-  }
-
-  const deleteSwarm = (id: number) => {
-    setSwarms(swarms.filter( item => item.id !== id));
-  }
+const Swarms: FC<ISwarms> = ({swarms, addSwarmFunction, deleteSwarmFunction, addDrone, deleteDrone}) => {
+  
+  const addSwarm = () => addSwarmFunction();
+  const deleteSwarm = (id: number) => deleteSwarmFunction(id);
+  const addDroneToSwarm = (swarmId: number) => addDrone(swarmId);
+  const deleteDroneFromSwarm = (swarmId: number, droneId: number) => deleteDrone(swarmId, droneId);
 
   return (
     <div className="Swarms">
        <button onClick={addSwarm} className="newSwarmButton">Add new swarm</button>
 
-       {swarms.map((swarm) => {return(<SingleSwarm key={swarm.id} id={swarm.id} drones={swarm.drones} deleteFunction={deleteSwarm} />)})}
+       {swarms.sort( (a, b) => a.id > b.id ? 1 : -1 ).map((swarm) => {return(<SingleSwarm key={swarm.id} id={swarm.id} drones={swarm.drones} deleteSwarmFunction={deleteSwarm} addDroneFunction={addDroneToSwarm} deleteDroneFunction={deleteDroneFromSwarm} />)})}
     </div>
   );
 }

@@ -12,6 +12,12 @@
     font-size: 0.7em;
 }
 
+.Orders button:disabled{
+    background: #000;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
 .Orders .title{
     text-align: center;
 }

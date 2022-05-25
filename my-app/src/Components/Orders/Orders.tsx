@@ -14,8 +14,8 @@ interface IOrders {
   clickedLocation?: myLatLng;
   cursorLocation?: myLatLng;
   movePoint?: myLatLng;
-  patrolPoints?: myLatLng[];
-  targetId?: number;
+  patrolPoints: myLatLng[];
+  targetId: number;
   addPointFunction: any;
   deletePointFunction: any;
   orders: singleOrder[];
@@ -27,20 +27,21 @@ interface singleOrder{
   id: number;
   name: string;
   swarmId: number;
+  orderType: number;
 }
 
 const Orders: React.FC<IOrders> = ({markedSwarm, markedDrone, clickedLocation, cursorLocation, movePoint, patrolPoints, targetId, addPointFunction, deletePointFunction, orders, addOrderFuntion, deleteOrder}) => {
 
   const addMovePointOrder = () => {
-    addOrderFuntion("Move to point order", markedSwarm);
+    addOrderFuntion("Move to point order", markedSwarm, 1);
   }
 
   const addPatrolOrder = () => {
-    addOrderFuntion("Patrol the area order", markedSwarm);
+    addOrderFuntion("Patrol the area order", markedSwarm, 2);
   }
 
   const addTrackingOrder = () => {
-    addOrderFuntion("Target tracking order", markedSwarm);
+    addOrderFuntion("Target tracking order", markedSwarm, 3);
   }
 
   return (
@@ -54,7 +55,7 @@ const Orders: React.FC<IOrders> = ({markedSwarm, markedDrone, clickedLocation, c
           <p>{clickedLocation?.lat} :: {clickedLocation?.lng}</p>
           <button onClick={addPointFunction}>Add location to order</button>
         </li>
-        <li><h5>Move to point:</h5> <p>{movePoint?.lat} :: {movePoint?.lng}</p> <button onClick={addMovePointOrder}>Set order!</button></li>
+        <li><h5>Move to point:</h5> <p>{movePoint?.lat} :: {movePoint?.lng}</p> <button onClick={addMovePointOrder} disabled={movePoint && markedSwarm ? false : true}>Set order!</button></li>
         <li>
           <h5>Patrol the area:</h5> 
           <div>
@@ -63,9 +64,13 @@ const Orders: React.FC<IOrders> = ({markedSwarm, markedDrone, clickedLocation, c
               <Point key={i} lat={point.lat} lng={point.lng} deleteFunction={deletePointFunction}/>
             )})}
           </div>
-          <button onClick={addPatrolOrder}>Set order!</button>
+          <button onClick={addPatrolOrder} disabled={patrolPoints.length > 0 && markedSwarm ? false : true}>Set order!</button>
         </li>
-        <li><h5>Target tracking:</h5> <p>Object #{targetId}</p> <button onClick={addTrackingOrder}>Set order!</button></li>
+        <li>
+          <h5>Target tracking:</h5>
+          <p>Object #{targetId}</p> 
+          <button onClick={addTrackingOrder} disabled={targetId !== 0 && markedSwarm ? false : true}>Set order!</button>
+        </li>
       </ul>
       <div className='swarm'>
         <div className='id'>Swarm #{markedSwarm} - Drone #{markedDrone}</div>
@@ -73,7 +78,7 @@ const Orders: React.FC<IOrders> = ({markedSwarm, markedDrone, clickedLocation, c
           <h5>List of Orders: </h5>
           {orders?.filter(item => item.swarmId === markedSwarm).map((order, i) => {
             return(
-              <Order key={order.id} id={order.id} name={order.name} deleteFunction={deleteOrder} actualOrder={i === 0 ? true : false}/>
+              <Order key={order.id} id={order.id} name={order.name} orderType={order.orderType} deleteFunction={deleteOrder} actualOrder={i === 0 ? true : false}/>
             )    
           })}
         </div>

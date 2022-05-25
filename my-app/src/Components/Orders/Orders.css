@@ -1,6 +1,70 @@
 .Orders{
     width: 100%;
     margin: 0;
-    padding: 0;
+    padding: 5px;
+    box-sizing: border-box;
     grid-column-start: 2;
+    overflow: scroll;
+}
+
+.Orders button{
+    width: 100%;
+    font-size: 0.7em;
+}
+
+.Orders .title{
+    text-align: center;
+}
+
+.Orders .title h4{
+    margin: 10px 0;
+}
+
+.Orders ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.Orders ul li{ 
+    width: 85%;
+    margin: 15px auto;
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid #000;
+    box-shadow: 0 0 5px 0 #000;
+}
+
+.Orders ul li h5{
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+
+.Orders ul li p{
+    font-size: 0.8em;
+    margin: 0;
+    padding: 0;
+}
+
+.Orders .swarm{
+    width: 85%;
+    margin: 15px auto;
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid #000;
+    box-shadow: 0 0 5px 0 #000;
+}
+
+.Orders .swarm .id{
+    text-align: center;
+}
+
+.Orders .cursorLocation{
+    min-width: 450px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 10px 25px;
+    background-color: #ffffffcc;
 }

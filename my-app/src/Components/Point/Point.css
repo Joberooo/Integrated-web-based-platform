@@ -1,0 +1,28 @@
+.singlePoint{
+    display: block;
+    width: 100%;
+    height: 30px;
+    font-size: 0.8em;
+}
+
+.singlePoint .singlePointLocation{
+    display: block;
+    float: left;
+    width: calc(100% - 30px);
+    height: 30px;
+    line-height: 30px;
+}
+
+.singlePoint .singlePointDelete{
+    display: block;
+    float: right;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+}
+
+.singlePoint .singlePointDelete:hover{
+    color: #ff0000;
+    cursor: pointer;
+}

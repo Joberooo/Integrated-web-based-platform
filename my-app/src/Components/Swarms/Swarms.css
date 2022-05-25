@@ -3,6 +3,7 @@
   width: 100%;
   grid-row-start: 1;
   grid-row-end: 2;
+  overflow: scroll;
 }
 
 button{

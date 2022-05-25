@@ -21,7 +21,7 @@ const SingleDrone: FC<Drone> = ({id, swarmId, latitude, longitude, deleteFunctio
   return (
     <div className="SingleDrone" draggable={true} onDragStart={handleDragStart} id={id.toString()}>
        <p>Drone #{id}</p> 
-       <p>{latitude} - {longitude}</p>
+       <p>Lat: {latitude} <br />Lng: {longitude}</p>
        <button onClick={deleteDrone}>&#128465;</button>
     </div>
   );

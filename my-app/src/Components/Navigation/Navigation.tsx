@@ -28,6 +28,12 @@ interface myLatLng{
   lng: number
 }
 
+interface singleOrder{
+  id: number;
+  name: string;
+  swarmId: number;
+}
+
 const Navigation = () => {
   const [displayNumber, setDisplayNumber] = useState<number>(1);
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -46,6 +52,9 @@ const Navigation = () => {
   const [movePoint, setMovePoint] = useState<myLatLng>();
   const [patrolPoints, setPatrolPoints] = useState<myLatLng[]>([]);
   const [targetId, setTargetId] = useState<number>(0);
+
+  const [ordersId, setOrdersId] = useState<number>(1000);
+  const [listOfOrders, setListOfOrders] = useState<singleOrder[]>([]);
 
   const addSwarm = () => {
     let newSwarm: Swarm = {id: swarmsId, drones: []};
@@ -108,6 +117,15 @@ const Navigation = () => {
     setPatrolPoints(patrolPoints.filter(item => item.lat !== lat && item.lng !== lng));
   }
 
+  const addOrder = (name: string, swarmId: number) => {
+    setOrdersId(ordersId + 1);
+    setListOfOrders([...listOfOrders, {id: ordersId, name: name, swarmId: swarmId}])
+  }
+
+  const deleteOrder = (id: number) => {
+    setListOfOrders(listOfOrders.filter( item => item.id !== id))
+  }
+
   useEffect(() => {
     const googleMapScript = laodMapApi();
     googleMapScript.addEventListener('load', function () {
@@ -152,7 +170,7 @@ const Navigation = () => {
         <li className='nav-option' onClick={goToSwarms}>Swarms</li>
       </ul>
 
-      {displayNumber === 1 && (<Orders markedSwarm={markerSwarmId} markedDrone={markerDroneId} clickedLocation={clickedLatLng} cursorLocation={cursorLatLng} movePoint={movePoint} patrolPoints={patrolPoints} targetId={targetId} addPointFunction={addPoint} deletePointFunction={deletePoint}/>)}
+      {displayNumber === 1 && (<Orders markedSwarm={markerSwarmId} markedDrone={markerDroneId} clickedLocation={clickedLatLng} cursorLocation={cursorLatLng} movePoint={movePoint} patrolPoints={patrolPoints} targetId={targetId} addPointFunction={addPoint} deletePointFunction={deletePoint} orders={listOfOrders} addOrderFuntion={addOrder} deleteOrder={deleteOrder}/>)}
     </div>
   )
 }

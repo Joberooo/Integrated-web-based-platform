@@ -1,0 +1,20 @@
+.singleOrder{
+    display: block;
+    width: 100%;
+    height: 30px;
+    font-size: 0.8em;
+}
+
+.singleOrder .singleOrderDelete{
+    display: block;
+    float: right;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+}
+
+.singleOrder .singleOrderDelete:hover{
+    color: #ff0000;
+    cursor: pointer;
+}

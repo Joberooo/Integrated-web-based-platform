@@ -19,7 +19,6 @@ interface Enemy{
 interface MyMarker {
   marker: google.maps.Marker,
   id: number,
-  infoWindow?: google.maps.InfoWindow,
   swarmId?: number,
   toDelete: boolean
 }
@@ -103,8 +102,6 @@ const Map: React.FC<IMap> = ({mapType, mapTypeControl = false, dronesArray, enem
             title: enemy.name + " #" + enemy.id,
             icon: {url: require("./natoSymbols/" + enemy.icon + ".png"), scaledSize: new google.maps.Size(32, 32), labelOrigin: new google.maps.Point(enemy.latitude - 16, enemy.longitude - 32)},
             label: {text: enemy.name + " #" + enemy.id, fontSize: "20px", fontWeight: "500"}
-          }), infoWindow: new google.maps.InfoWindow({
-            content: enemy.name + " #" + enemy.id
           })}
         }
         else{
@@ -113,18 +110,9 @@ const Map: React.FC<IMap> = ({mapType, mapTypeControl = false, dronesArray, enem
             position: new google.maps.LatLng(enemy.latitude, enemy.longitude),
             title: enemy.name + " #" + enemy.id,
             label: {text: enemy.name + " #" + enemy.id, fontSize: "20px", fontWeight: "500"},
-          }), infoWindow: new google.maps.InfoWindow({
-            content: enemy.name + " #" + enemy.id
           })}
         }
-        enemyMarker.marker.addListener("click", () =>{
-          enemyMarker.infoWindow?.open({
-            anchor: enemyMarker.marker,
-            map,
-            shouldFocus: false
-          })
-          enemyClickFunction(enemyMarker.id)
-        })
+        enemyMarker.marker.addListener("click", () => enemyClickFunction(enemyMarker.id))
         enemyMarkers.push(enemyMarker);
       }
     });

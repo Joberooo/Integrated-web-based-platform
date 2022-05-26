@@ -318,7 +318,7 @@ const Navigation = () => {
         <li className='nav-option' onClick={goToSwarms}>Swarms</li>
       </ul>
 
-      {displayNumber === 1 && (<Orders markedSwarm={markerSwarmId} markedDrone={markerDroneId} clickedLocation={clickedLatLng} cursorLocation={cursorLatLng} movePoint={movePoint} patrolPoints={patrolPoints} targetId={targetId} addPointFunction={addPoint} deletePointFunction={deletePoint} orders={listOfOrders} addOrderFuntion={addOrder} deleteOrder={deleteOrder}/>)}
+      {displayNumber === 1 && (<Orders markedSwarm={markerSwarmId} markedDrone={markerDroneId} clickedLocation={clickedLatLng} cursorLocation={cursorLatLng} movePoint={movePoint} patrolPoints={patrolPoints} enemiesArray={enemies} targetId={targetId} addPointFunction={addPoint} deletePointFunction={deletePoint} orders={listOfOrders} addOrderFuntion={addOrder} deleteOrder={deleteOrder}/>)}
     </div>
   )
 }

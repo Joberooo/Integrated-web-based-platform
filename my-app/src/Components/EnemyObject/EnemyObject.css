@@ -1,0 +1,77 @@
+.Orders .enemy i{
+    cursor: pointer;
+}
+
+.Orders .enemyDetails{
+    position: absolute;
+    width: 1000px;
+    height: 1000px;
+    top: calc(50% - 500px);
+    left: calc(50% - 500px);
+    background: #ffffffaa;
+    box-shadow: 0 0 5px 0 #000;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.Orders .enemyDetails button{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    margin: 10px;
+    top: 0;
+    right: 0;
+    line-height: 50px;
+    border-radius: 50%;
+
+}
+
+.Orders .enemyDetails ul li{
+    width: 60%;
+    margin: 10px 0;
+    background: #ffffffcc;
+    font-size: 0.9em;
+}
+
+.Orders .enemyDetails .details{
+    width: 90%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.Orders .enemyDetails .details .oneInformation{
+    background-color: #ffffffcc;
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid #000;
+    box-shadow: 0 0 5px 0 #000;
+}
+
+.Orders .enemyDetails .details .oneInformation .oneInformationDate{
+    text-align: right;
+    font-style: italic;
+    font-size: 0.6em;
+}
+
+.Orders .enemyDetails .details .oneInformation .oneInformationContent{
+    text-align: left;
+    font-size: 0.8em;
+}
+
+.Orders .enemyDetails .details .oneInformation .oneInformationImage{
+    max-width: 90%;
+    max-height: 400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Orders .enemyDetails .details .oneInformation .oneInformationImage img{
+    max-width: 100%;
+    max-height: 400px;
+    box-sizing: border-box;
+    padding: 5px;
+}

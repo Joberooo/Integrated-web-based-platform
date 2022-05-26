@@ -51,6 +51,13 @@ interface singleOrder{
   targetId?: number;
 }
 
+interface OrderMarker {
+  id: number,
+  latitude: number;
+  longitude: number;
+  swarmId: number;
+}
+
 const Navigation = () => {
   const [displayNumber, setDisplayNumber] = useState<number>(1);
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -75,6 +82,7 @@ const Navigation = () => {
 
   const [ordersId, setOrdersId] = useState<number>(1000);
   const [listOfOrders, setListOfOrders] = useState<singleOrder[]>([]);
+  const [orderMarkers, setOrderMarkers] = useState<OrderMarker[]>([]);
 
   const [time, setTime] = useState<number>(Date.now());
 
@@ -151,7 +159,15 @@ const Navigation = () => {
   }
 
   const deleteOrder = (id: number) => {
-    setListOfOrders(listOfOrders.filter( item => item.id !== id))
+    var timeOrder = listOfOrders.find( item => item.id === id)
+    if(timeOrder)
+    {
+      setListOfOrders(listOfOrders.filter( item => item.id !== id))
+      setOrderMarkers(orderMarkers.filter( item => item.swarmId !== timeOrder?.swarmId))
+    }
+    if(listOfOrders.length === 0){
+      setOrderMarkers([]);
+    }
   }
 
   useEffect(() => {
@@ -176,7 +192,13 @@ const Navigation = () => {
         swarms.forEach(swarm => {
           var actualOrder: singleOrder = listOfOrders.filter( item => item.swarmId === swarm.id)[0];
           if(actualOrder){
-            if(actualOrder.orderType === 1){
+            if(actualOrder.orderType === 1 && actualOrder.movePoint){
+              if(!orderMarkers.find(item => item.id === 1 && item.swarmId === swarm.id))
+                orderMarkers.push({id: 1, latitude: actualOrder.movePoint?.lat, longitude: actualOrder.movePoint?.lng, swarmId: swarm.id})
+              else{
+                orderMarkers.find(item => item.id === 1 && item.swarmId === swarm.id)!.latitude = actualOrder.movePoint.lat;
+                orderMarkers.find(item => item.id === 1 && item.swarmId === swarm.id)!.longitude = actualOrder.movePoint.lng
+              }
               var ifDeleteOrder: boolean = true;
               swarm.drones.forEach(drone => {
                 if(actualOrder.movePoint){
@@ -195,9 +217,21 @@ const Navigation = () => {
                   else ifDeleteOrder = ifDeleteOrder && false
                 }
               })
-              if(ifDeleteOrder) setListOfOrders(listOfOrders.filter( item => item.id !== actualOrder.id))
+              if(ifDeleteOrder){
+                setListOfOrders(listOfOrders.filter( item => item.id !== actualOrder.id))
+                setOrderMarkers(orderMarkers.filter( item => item.swarmId !== swarm.id))
+              }
             }
-            if(actualOrder.orderType === 2){
+            if(actualOrder.orderType === 2 && actualOrder.patrolPoints){
+              for(var i = 0; i < actualOrder.patrolPoints?.length; i++){
+                if(orderMarkers.find(item => item.id === i + 1 && item.swarmId === swarm.id)){
+                  orderMarkers.find(item => item.id === i + 1 && item.swarmId === swarm.id)!.latitude = actualOrder.patrolPoints[i].lat;
+                  orderMarkers.find(item => item.id === i + 1 && item.swarmId === swarm.id)!.longitude = actualOrder.patrolPoints[i].lng
+                }
+                else{
+                  orderMarkers.push({id: i + 1, latitude: actualOrder.patrolPoints[i].lat, longitude: actualOrder.patrolPoints[i].lng, swarmId: swarm.id})
+                } 
+              }
               var ifChangePoint: boolean = true;
               var actualPatrolPoint = actualPatrolPoints.find(item => item.swarmId === swarm.id)?.actualPatrolPoint;
               var timeActualPatrolPoints = actualPatrolPoints.filter(item => item.swarmId !== swarm.id);
@@ -232,7 +266,8 @@ const Navigation = () => {
                 setActualPatrolPoints(timeActualPatrolPoints)
               }
             }
-            if(actualOrder.orderType === 3){          
+            if(actualOrder.orderType === 3){
+              setOrderMarkers(orderMarkers.filter(item => item.swarmId !== swarm.id))   
               swarm.drones.forEach(drone => {
                 if(actualOrder.targetId){
                   var enemy = enemies.find(item => item.id === actualOrder.targetId)
@@ -244,9 +279,6 @@ const Navigation = () => {
   
                     drone.latitude = drone.latitude + diffLat * diffLevel * 3;
                     drone.longitude = drone.longitude + diffLng * diffLevel * 3;
-  
-                    var latDifference = Math.abs(drone.latitude - enemy.latitude);
-                    var lngDifference = Math.abs(drone.longitude - enemy.longitude);
                   }
                 }
               })
@@ -278,7 +310,7 @@ const Navigation = () => {
 
   return (
     <div className="Home">
-      {displayNumber === 1 && scriptLoaded && (<Map mapType={google.maps.MapTypeId.TERRAIN} mapTypeControl={true} dronesArray={drones} enemiesArray={enemies} markerClickFunction={markerClick} mapClickFunction={mapClick} mapMoveCursorFunction={mapMove} enemyClickFunction={enemyClick}/>)}
+      {displayNumber === 1 && scriptLoaded && (<Map mapType={google.maps.MapTypeId.TERRAIN} mapTypeControl={true} dronesArray={drones} enemiesArray={enemies} orderMarkersArray={orderMarkers} markerClickFunction={markerClick} mapClickFunction={mapClick} mapMoveCursorFunction={mapMove} enemyClickFunction={enemyClick}/>)}
       {displayNumber === 2 && (<Swarms swarms={swarms} addSwarmFunction={addSwarm} deleteSwarmFunction={deleteSwarm} addDrone={addDroneToSwarm} deleteDrone={deleteDroneFromSwarm} dragAndDrop={dragAndDropDrone} />)}
 
       <ul className='nav-menu'>
